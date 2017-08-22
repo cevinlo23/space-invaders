@@ -8,13 +8,12 @@ function Ship() {
     rect(this.x, height - 22, 60, 20);
   }
 
-  this.move = function(dir) {
+  this.move = function() {
     if (this.x >= 0) {
-      this.x = ((this.x + (this.xdir * 5)) % 600);
+      this.x = ((this.x + (this.xdir * 3)) % 600);
     } else {
       this.x = 600;
     }
-    //console.log(this.x);
   }
 
   this.setDir = function(dir) {
