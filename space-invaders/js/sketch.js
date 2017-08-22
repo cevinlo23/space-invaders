@@ -13,8 +13,8 @@ function setup() {
   playButton.mousePressed(pause);
   var resetButton = createButton("reset").parent('buttons');
   resetButton.mousePressed(welcomePage);
-  var fastButton = createButton("2x Speed").parent('buttons');
-  fastButton.mousePressed(fastForward);
+  var slowButton = createButton("1/2 Speed").parent('buttons');
+  slowButton.mousePressed(slowFrameRate);
   var highScoreButton = createButton("highscores").parent('buttons');
   highScoreButton.mousePressed(endGame);
 
@@ -34,7 +34,7 @@ function setup() {
   // highscoresDiv.hide();
 
   var scoreString = createP(`Score: ${score}`).class('score');
-  scoreString.parent('score');
+  scoreString.parent('main-score');
   scoreString.hide();
 
   //clear();
@@ -128,7 +128,10 @@ function draw() {
 function welcomePage() {
   noLoop();
   gameHasStarted = false;
-  $('.score').hide();
+  score = 0;
+  updateScore(score);
+  $('#score').hide();
+  $('.highscore').hide();
   welcomeDiv = createElement('div');
   welcomeDiv.class('welcome').size(600, 600);
 
@@ -152,23 +155,28 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
   var enemiesDestroyed = 55 - enemiesLeftCount;
   var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
   var finalScore = score + bonus;
-  console.log('Survivor Count: ', friendlySurvivorCount);
-  console.log('Enemies Left: ', enemiesLeftCount);
-  console.log('score: ', score, 'bonus: ', bonus, 'final score: ', finalScore);
-  //$('.scores').show();
-  //$('.highscore-list').show();
 
+  $('#score').empty();
+  $('#score').show();
 
-  //showHighscoreList();
+  showHighscoreList();
 
-  //Create View Score Div
+  // Display Score Div
   var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
   var survivorPoints = createP(` -- Number of Survivors Saved: ${friendlySurvivorCount}`).parent('score');
   var enemyPoints = createP(` -- Number of Enemies Destroyed: ${enemiesDestroyed}`).parent('score');
   var p = createP(`**************************************************`).parent('score');
   var finalPoints = createP(`Final Score: ${finalScore}`).class('final').parent('score');
+}
 
-  //Create View Score Div
+
+function showHighscoreList() {
+  highscoreDiv = createElement('div');
+  highscoreDiv.class('highscore').size(600, 600);
+  var p0 = createP('HIGHSCORES').class('highscore-list').parent(highscoreDiv);
+  var break0 = createElement('br').parent(highscoreDiv);
+
+  highscoreDiv.position(540, 111.18);
 }
 
 
@@ -207,7 +215,7 @@ function updateScore(score) {
   $('.score').html(`Score: ${score}`);
 }
 
-function fastForward() {
+function slowFrameRate() {
   frameRate(30);
   console.log(frameRate());
 }

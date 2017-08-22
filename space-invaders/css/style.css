@@ -48,7 +48,8 @@ nav#buttons {
   text-align: right;
 }
 
-.scores {
+
+/*.scores {
   width: 28%;
   background-color: #515151;
   color: white;
@@ -62,7 +63,7 @@ nav#buttons {
   background-color: #515151;
   color: white;
   height: 600px;
-}
+}*/
 
 .welcome {
   text-align: center;
