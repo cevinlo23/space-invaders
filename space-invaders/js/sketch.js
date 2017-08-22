@@ -4,15 +4,19 @@ var alienColumns = 11;
 var aliens = [];
 var rocketsArray = [];
 var score = 0;
-var friendlyAlienArray = [];
+var pauseCount = 0;
+var gameHasStarted = false;
+
 
 function setup() {
-  var playButton = createButton("pause").parent('buttons');
+  var playButton = createButton("pause/play").parent('buttons');
+  playButton.mousePressed(pause);
   var resetButton = createButton("reset").parent('buttons');
+  resetButton.mousePressed(welcomePage);
   var fastButton = createButton("2x Speed").parent('buttons');
   var highScoreButton = createButton("highscores").parent('buttons');
-  var scoresDiv = createElement('aside', 'View Your Score:');
 
+  var scoresDiv = createElement('aside', 'View Your Score:');
   scoresDiv.class('aside scores');
   scoresDiv.parent('container');
   canvas = createCanvas(600, 600);
@@ -22,22 +26,10 @@ function setup() {
   var highscoresDiv = createElement('aside', 'Highscores:');
   highscoresDiv.class('aside highscore-list');
   highscoresDiv.parent('container');
+  //clear();
 
-  // Displays ship and aliens
-  ship = new Ship();
-  for (var row = 0; row < alienRows; row++) {
-    for (var column = 0; column < alienColumns; column++) {
-      if (row % 2 === 0) {
-        aliens.push(new Alien((width / 2) + ((alienColumns / 2 - column) * 550 / alienColumns), (0 + row * 30)));
-      } else {
-        aliens.push(new Alien(((width / 2) + ((alienColumns / 2 - column) * 550 / alienColumns) + 25), (0 + row * 30)));
-      }
-    }
-  }
-  for (var i = 0; i < 9; i++) {
-    var random = Math.floor((Math.random() * 55));
-    aliens[random].friendlyAlien();
-  }
+  welcomePage();
+  resetSketch();
 }
 
 
@@ -100,7 +92,9 @@ function draw() {
 
   for (var i = rocketsArray.length - 1; i >= 0; i--) {
     if (rocketsArray[i].flaggedForDelete) {
-      rocketsArray.splice(i, 1)
+      rocketsArray.splice(i, 1);
+    } else if (rocketsArray[i].y <= 0) {
+      rocketsArray.splice(i, 1);
     }
   }
 
@@ -111,6 +105,27 @@ function draw() {
   }
 }
 
+function welcomePage() {
+  noLoop();
+  gameHasStarted = false;
+  welcomeDiv = createElement('div');
+  welcomeDiv.class('welcome').size(600, 600);
+
+  var p0 = createP('Welcome to Space-Invaders!').class('firstP').parent(welcomeDiv);
+  var break0 = createElement('br').parent(welcomeDiv);
+  var p1 = createP(`  Manuver your Ship and Destroy the Descending Invaders.
+       Shoot the Red Invaders but Avoid Shooting the Friendly Green Aliens  `).parent(welcomeDiv);
+  var break1 = createElement('br').parent(welcomeDiv);
+  var p2 = createP(` <-  ->     Move`).parent(welcomeDiv);
+  var p3 = createP('SPACEBAR    Shoot').parent(welcomeDiv);
+  var break2 = createElement('br').parent(welcomeDiv);
+  var break3 = createElement('br').parent(welcomeDiv);
+  var p4 = createP("  Press ENTER to Play  ").class('blink').parent(welcomeDiv);
+  welcomeDiv.position(540, 111.18);
+  welcomeDiv.style('background-color', 'black').style('color', 'white');
+}
+
+
 function endGame(friendlySurvivorCount, enemiesLeftCount) {
   noLoop();
   var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
@@ -119,11 +134,46 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
   console.log('Enemies Left: ', enemiesLeftCount);
   console.log('score: ', score, 'bonus: ', bonus, 'final score: ', finalScore);
   alert(`Game Over!
-     Points Scored = ${score}pts
-     *Bonus*       = (Friendly Survivors x 150pts) - (Enemies Left x 50pts)
-     Final Score   = ${finalScore}pts
+  Points Scored = ${score}pts
+  *Bonus* = (Friendly Survivors x 150 pts) - (Enemies Left x 50 pts)
+  Final Score = ${finalScore}pts
     `);
+  //Create View Score Div
 }
+
+
+function pause() {
+  if (pauseCount % 2 === 0) {
+    noLoop();
+    pauseCount += 1;
+    console.log("pause");
+  } else {
+    loop();
+    pauseCount += 1;
+  }
+}
+
+
+function resetSketch() {
+
+  aliens = [];
+  // Displays ship and aliens
+  ship = new Ship();
+  for (var row = 0; row < alienRows; row++) {
+    for (var column = 0; column < alienColumns; column++) {
+      if (row % 2 === 0) {
+        aliens.push(new Alien((width / 2) + ((alienColumns / 2 - column) * 550 / alienColumns), (0 + row * 30)));
+      } else {
+        aliens.push(new Alien(((width / 2) + ((alienColumns / 2 - column) * 550 / alienColumns) + 25), (0 + row * 30)));
+      }
+    }
+  }
+  for (var i = 0; i < 9; i++) {
+    var random = Math.floor((Math.random() * 55));
+    aliens[random].friendlyAlien();
+  }
+}
+
 
 // keyBinding for controls
 function keyReleased() {
@@ -142,4 +192,16 @@ function keyPressed() {
   } else if (keyCode === LEFT_ARROW) {
     ship.setDir(-1);
   }
+  if (keyCode === ENTER) {
+    if (gameHasStarted === false) {
+      $('div.welcome').hide();
+      gameHasStarted = true;
+      resetSketch();
+      loop();
+    } else {
+      console.log("Game has Already Started!");
+    }
+  }
 }
+
+function mousePressed() {}

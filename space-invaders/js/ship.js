@@ -1,11 +1,12 @@
 function Ship() {
   this.x = width / 2;
+  this.y = height - 22;
   this.xdir = 0;
 
   this.show = function() {
     fill(255);
     rectMode(CENTER);
-    rect(this.x, height - 22, 60, 20);
+    rect(this.x, this.y, 60, 20);
   }
 
   this.move = function() {

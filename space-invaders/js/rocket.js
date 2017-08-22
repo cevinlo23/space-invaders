@@ -3,6 +3,7 @@ function Rocket(x, y) {
   this.y = y;
   this.radius = 3;
   this.flaggedForDelete = false;
+  this.velocity = 3;
 
   this.show = function() {
     //noStroke();
@@ -11,7 +12,7 @@ function Rocket(x, y) {
   }
 
   this.shoot = function() {
-    this.y -= 3;
+    this.y -= this.velocity;
   }
 
   this.hits = function(alien) {
