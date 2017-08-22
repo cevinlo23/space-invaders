@@ -4,8 +4,17 @@ var alienColumns = 11;
 var aliens = [];
 var rocketsArray = [];
 var score = 0;
-var pauseCount = 0;
+var pauseCount, frameCount = 0;
 var gameHasStarted = false;
+var highscoreObjectArray = [];
+console.log(frameCount);
+
+for (t = 1; t <= 10; t++) {
+  highscoreObjectArray.push({
+    name: 'name',
+    score: (550 - (t * 50))
+  });
+}
 
 
 function setup() {
@@ -36,8 +45,6 @@ function setup() {
   var scoreString = createP(`Score: ${score}`).class('score');
   scoreString.parent('main-score');
   scoreString.hide();
-
-  //clear();
 
   welcomePage();
   resetSketch();
@@ -89,6 +96,7 @@ function draw() {
       enemyCount += 1;
     }
   }
+
   if (enemyCount === 0) {
     hitBottom = true;
   }
@@ -125,6 +133,7 @@ function draw() {
   }
 }
 
+
 function welcomePage() {
   noLoop();
   gameHasStarted = false;
@@ -158,7 +167,6 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
 
   $('#score').empty();
   $('#score').show();
-
   showHighscoreList();
 
   // Display Score Div
@@ -173,9 +181,13 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
 function showHighscoreList() {
   highscoreDiv = createElement('div');
   highscoreDiv.class('highscore').size(600, 600);
-  var p0 = createP('HIGHSCORES').class('highscore-list').parent(highscoreDiv);
+  var title = createElement('h2', 'HIGHSCORES').class('highscore-list-item').parent(highscoreDiv);
   var break0 = createElement('br').parent(highscoreDiv);
-
+  var highscoreList = createElement('ol').class('list').parent(highscoreDiv);
+  for (var i = 0; i < highscoreObjectArray.length; i++) {
+    //create p tags and append to highscore
+    createP(`${i + 1}. &emsp;${highscoreObjectArray[i].name}&emsp;${highscoreObjectArray[i].score}`).class('highscore-list-item').parent(highscoreList);
+  }
   highscoreDiv.position(540, 111.18);
 }
 
@@ -192,7 +204,6 @@ function pause() {
 
 
 function resetSketch() {
-
   aliens = [];
   // Displays ship and aliens
   ship = new Ship();
@@ -205,20 +216,29 @@ function resetSketch() {
       }
     }
   }
+  // Adding random friendly Aliens
   for (var i = 0; i < 9; i++) {
     var random = Math.floor((Math.random() * 55));
     aliens[random].friendlyAlien();
   }
 }
 
+
 function updateScore(score) {
   $('.score').html(`Score: ${score}`);
 }
 
+
 function slowFrameRate() {
-  frameRate(30);
-  console.log(frameRate());
+  if (frameCount % 2 === 0) {
+    frameRate(30);
+    frameCount += 1;
+  } else {
+    frameRate(60);
+    frameCount += 1;
+  }
 }
+
 
 // keyBinding for controls
 function keyReleased() {

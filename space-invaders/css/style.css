@@ -48,22 +48,20 @@ nav#buttons {
   text-align: right;
 }
 
-
-/*.scores {
-  width: 28%;
-  background-color: #515151;
+.highscore {
+  background-color: #333333;
   color: white;
-  margin-right: 5%;
-  height: 600px;
 }
 
-.highscore-list {
-  width: 28%;
-  margin-left: 5%;
-  background-color: #515151;
-  color: white;
-  height: 600px;
-}*/
+.highscore-list-item {
+  text-align: center;
+}
+
+ol.list {
+  list-style-type: lower-roman;
+  margin: 0 auto;
+  padding: 0;
+}
 
 .welcome {
   text-align: center;
