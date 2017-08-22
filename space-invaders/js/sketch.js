@@ -14,18 +14,29 @@ function setup() {
   var resetButton = createButton("reset").parent('buttons');
   resetButton.mousePressed(welcomePage);
   var fastButton = createButton("2x Speed").parent('buttons');
+  fastButton.mousePressed(fastForward);
   var highScoreButton = createButton("highscores").parent('buttons');
+  highScoreButton.mousePressed(endGame);
 
-  var scoresDiv = createElement('aside', 'View Your Score:');
-  scoresDiv.class('aside scores');
-  scoresDiv.parent('container');
+  // var scoresDiv = createElement('aside', 'View Your Score:');
+  // scoresDiv.class('aside scores');
+  // scoresDiv.parent('container');
+  // scoresDiv.hide();
+
   canvas = createCanvas(600, 600);
-  // canvas.position(((1680 / 2) - 300), 175);
+  canvas.position(((1680 / 2) - 300), 111.18);
   canvas.class('canvas');
   canvas.parent('container');
-  var highscoresDiv = createElement('aside', 'Highscores:');
-  highscoresDiv.class('aside highscore-list');
-  highscoresDiv.parent('container');
+
+  // var highscoresDiv = createElement('aside', 'Highscores:');
+  // highscoresDiv.class('aside highscore-list');
+  // highscoresDiv.parent('container');
+  // highscoresDiv.hide();
+
+  var scoreString = createP(`Score: ${score}`).class('score');
+  scoreString.parent('score');
+  scoreString.hide();
+
   //clear();
 
   welcomePage();
@@ -49,7 +60,7 @@ function draw() {
         rocketsArray[i].boom();
         //console.log(aliens);
         score += aliens[j].points;
-        console.log(score);
+        updateScore(score);
       }
     }
   }
@@ -68,12 +79,21 @@ function draw() {
     }
   }
 
-  if (aliens.length === 0) {
+  // if (aliens.length === 0) {
+  //   hitBottom = true;
+  // }
+
+  var enemyCount = 0;
+  for (var i = 0; i < aliens.length; i++) {
+    if (aliens[i].friendly === false) {
+      enemyCount += 1;
+    }
+  }
+  if (enemyCount === 0) {
     hitBottom = true;
   }
 
   if (hitBottom) {
-    console.log(aliens.length);
     var friendlySurvivorCount = 0;
     for (var i = 0; i < aliens.length; i++) {
       if (aliens[i].friendly === true) {
@@ -108,6 +128,7 @@ function draw() {
 function welcomePage() {
   noLoop();
   gameHasStarted = false;
+  $('.score').hide();
   welcomeDiv = createElement('div');
   welcomeDiv.class('welcome').size(600, 600);
 
@@ -128,16 +149,25 @@ function welcomePage() {
 
 function endGame(friendlySurvivorCount, enemiesLeftCount) {
   noLoop();
+  var enemiesDestroyed = 55 - enemiesLeftCount;
   var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
   var finalScore = score + bonus;
   console.log('Survivor Count: ', friendlySurvivorCount);
   console.log('Enemies Left: ', enemiesLeftCount);
   console.log('score: ', score, 'bonus: ', bonus, 'final score: ', finalScore);
-  alert(`Game Over!
-  Points Scored = ${score}pts
-  *Bonus* = (Friendly Survivors x 150 pts) - (Enemies Left x 50 pts)
-  Final Score = ${finalScore}pts
-    `);
+  //$('.scores').show();
+  //$('.highscore-list').show();
+
+
+  //showHighscoreList();
+
+  //Create View Score Div
+  var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
+  var survivorPoints = createP(` -- Number of Survivors Saved: ${friendlySurvivorCount}`).parent('score');
+  var enemyPoints = createP(` -- Number of Enemies Destroyed: ${enemiesDestroyed}`).parent('score');
+  var p = createP(`**************************************************`).parent('score');
+  var finalPoints = createP(`Final Score: ${finalScore}`).class('final').parent('score');
+
   //Create View Score Div
 }
 
@@ -146,7 +176,6 @@ function pause() {
   if (pauseCount % 2 === 0) {
     noLoop();
     pauseCount += 1;
-    console.log("pause");
   } else {
     loop();
     pauseCount += 1;
@@ -174,6 +203,14 @@ function resetSketch() {
   }
 }
 
+function updateScore(score) {
+  $('.score').html(`Score: ${score}`);
+}
+
+function fastForward() {
+  frameRate(30);
+  console.log(frameRate());
+}
 
 // keyBinding for controls
 function keyReleased() {
@@ -196,6 +233,7 @@ function keyPressed() {
     if (gameHasStarted === false) {
       $('div.welcome').hide();
       gameHasStarted = true;
+      $('.score').show();
       resetSketch();
       loop();
     } else {
