@@ -6,7 +6,7 @@ function Rocket(x, y) {
   this.velocity = 5;
 
   this.show = function() {
-    fill(229, 6, 6);
+    fill(255, 225, 26);
     ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
   }
 

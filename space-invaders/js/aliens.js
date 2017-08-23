@@ -9,7 +9,7 @@ function Alien(x, y) {
   this.friendly = false;
   this.color = '#f230db';
   this.image = '/Users/yjh296/Desktop/sandbox/unit-1-project/space-invaders/space-invaders/images/space-invaders-sprite1.jpg'
-  this.bombRate = 0.005;
+  this.bombRate = 0.0035;
 
 
   this.show = function() {
@@ -40,6 +40,5 @@ function Alien(x, y) {
     this.friendly = true;
     this.points = -50;
     this.color = "#2be51d";
-
   }
 }

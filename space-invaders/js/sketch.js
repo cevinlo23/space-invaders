@@ -9,7 +9,8 @@ var pauseCount = 0;
 var frameCount = 0;
 var gameHasStarted = false;
 var highscoreObjectArray = [];
-var aliensImg = [];
+//var aliensImg = [];
+var updatedHighscore = false;
 var lives = 3;
 
 for (t = 1; t <= 10; t++) {
@@ -92,6 +93,11 @@ function draw() {
       bombsArray[i].boom();
       lives = lives - 1;
       updateLives(lives);
+
+      $('#lives').addClass('flash-red');
+      setTimeout(function() {
+        $('#lives').removeClass('flash-red');
+      }, 250);
 
       if (lives <= 0) {
         var friendlySurvivorCount = 0;
@@ -226,6 +232,7 @@ function welcomePage() {
 
 function endGame(friendlySurvivorCount, enemiesLeftCount) {
   noLoop();
+  updatedHighscore = false;
   var enemiesDestroyed = 55 - enemiesLeftCount - friendlySurvivorCount;
   var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
   var finalScore = score + bonus;
@@ -279,19 +286,22 @@ function addHighscore(finalScore) {
 }
 
 function updateHighscoreList(username, finalScore) {
-  var i = 0;
-  while (i < highscoreObjectArray.length && highscoreObjectArray[i].score > finalScore) {
-    i++;
-  }
-  if (i < highscoreObjectArray.length) {
-    //found a place to insert the score
-    for (var j = highscoreObjectArray.length - 1; j > i; j--) {
-      highscoreObjectArray[j].score = highscoreObjectArray[j - 1].score;
+  if (updatedHighscore === false) {
+    updatedHighscore = true;
+    var i = 0;
+    while (i < highscoreObjectArray.length && highscoreObjectArray[i].score > finalScore) {
+      i++;
     }
-    highscoreObjectArray[i].score = finalScore;
-    highscoreObjectArray[i].name = username;
+    if (i < highscoreObjectArray.length) {
+      //found a place to insert the score
+      for (var j = highscoreObjectArray.length - 1; j > i; j--) {
+        highscoreObjectArray[j].score = highscoreObjectArray[j - 1].score;
+      }
+      highscoreObjectArray[i].score = finalScore;
+      highscoreObjectArray[i].name = username;
+    }
+    displayHighscoreList();
   }
-  displayHighscoreList();
 }
 
 
