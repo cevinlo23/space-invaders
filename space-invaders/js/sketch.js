@@ -3,6 +3,7 @@ var alienRows = 5;
 var alienColumns = 11;
 var aliens = [];
 var rocketsArray = [];
+var bombsArray = [];
 var score = 0;
 var pauseCount = 0;
 var frameCount = 0;
@@ -25,8 +26,8 @@ function setup() {
   resetButton.mousePressed(welcomePage);
   var slowButton = createButton("1/2 Speed").parent('buttons');
   slowButton.mousePressed(slowFrameRate);
-  var highScoreButton = createButton("Highscores").parent('buttons');
-  highScoreButton.mousePressed(function() {
+  var surrenderButton = createButton("Surrender").parent('buttons');
+  surrenderButton.mousePressed(function() {
     var friendlySurvivorCount = 0;
     for (var i = 0; i < aliens.length; i++) {
       if (aliens[i].friendly === true) {
@@ -41,11 +42,6 @@ function setup() {
   canvas.position(((1680 / 2) - 300), 111.18);
   canvas.class('canvas');
   canvas.parent('container');
-
-  // var highscoresDiv = createElement('aside', 'Highscores:');
-  // highscoresDiv.class('aside highscore-list');
-  // highscoresDiv.parent('container');
-  // highscoresDiv.hide();
 
   var scoreString = createP(`Score: ${score}`).class('score');
   scoreString.parent('main-score');
@@ -73,8 +69,19 @@ function draw() {
         //console.log(aliens);
         score += aliens[j].points;
         updateScore(score);
+        if (aliens[j].friendly === true) {
+          $('#main-score').addClass('flash-red');
+          setTimeout(function() {
+            $('#main-score').removeClass('flash-red');
+          }, 200);
+        }
       }
     }
+  }
+
+  for (var i = 0; i < bombsArray.length; i++) {
+    bombsArray[i].show();
+    bombsArray[i].dropBomb();
   }
 
   // Checks to see if aliens have hit the edge, if so then move them down one row
@@ -134,6 +141,37 @@ function draw() {
   for (var i = aliens.length - 1; i >= 0; i--) {
     if (aliens[i].flaggedForDelete) {
       aliens.splice(i, 1)
+    }
+  }
+
+  //  Find all of the front rank invaders.
+  var frontRowAliens = [];
+  for (var i = 0; i < aliens.length; i++) {
+    var alien = aliens[i];
+    alien.row = (Math.floor(i / 11)) + 1;
+    alien.column = (i % 11) + 1;
+
+    if (!frontRowAliens[alien.column] || frontRowAliens[alien.column].row < alien.row) {
+      frontRowAliens[alien.column] = alien;
+    }
+  }
+
+  //  Give each front rank invader a chance to drop a bomb.
+  for (var i = 0; i < alienColumns; i++) {
+    var alien = frontRowAliens[i];
+    if (!alien) continue;
+    if (alien.bombRate > Math.random()) {
+      //  Fire!
+      bombsArray.push(new Bomb(alien.x, alien.y + alien.radius));
+    }
+  }
+  console.log(bombsArray);
+
+  for (var i = bombsArray.length - 1; i >= 0; i--) {
+    if (bombsArray[i].flaggedForDelete) {
+      bombsArray.splice(i, 1);
+    } else if (bombsArray[i].y >= height) {
+      bombsArray.splice(i, 1);
     }
   }
 }

@@ -5,10 +5,12 @@ function Bomb(x, y) {
   this.flaggedForDelete = false;
   this.velocity = 5;
 
+
   this.show = function() {
     //noStroke();
     fill(229, 6, 6);
-    line(this.x, this.y, this.x, this.y + 3);
+    //line(this.x, this.y, this.x, this.y + 3);
+    ellipse(this.x, this.y, this.radius * 2, this.radius * 2)
   }
 
   this.dropBomb = function() {

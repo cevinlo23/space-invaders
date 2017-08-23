@@ -57,6 +57,15 @@ nav#buttons {
   text-align: center;
 }
 
+input {
+  margin-right: 1.5em;
+  margin-top: 1.5em;
+}
+
+.form-div button {
+  margin-top: 1.5em;
+}
+
 ol.list {
   list-style-type: lower-roman;
   margin: 0 auto;
