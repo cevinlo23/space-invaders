@@ -101,7 +101,12 @@ ol.list {
   padding-top: 90px;
 }
 
-.blink {}
+#string-container {
+  display: flex;
+  flex-flow: row wrap;
+  width: 600px;
+  justify-content: space-between;
+}
 
 footer {
   background-color: #515151;

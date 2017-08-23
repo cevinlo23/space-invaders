@@ -10,6 +10,7 @@ var frameCount = 0;
 var gameHasStarted = false;
 var highscoreObjectArray = [];
 var aliensImg = [];
+var lives = 3;
 
 for (t = 1; t <= 10; t++) {
   highscoreObjectArray.push({
@@ -47,6 +48,10 @@ function setup() {
   scoreString.parent('main-score');
   scoreString.hide();
 
+  var livesString = createP(`Lives: ${lives}`).class('lives');
+  livesString.parent('lives');
+  livesString.hide();
+
   welcomePage();
   resetSketch();
 }
@@ -68,6 +73,8 @@ function draw() {
         rocketsArray[i].boom();
         score += aliens[j].points;
         updateScore(score);
+
+        // makes score flash red if a friendly Alien is hit
         if (aliens[j].friendly === true) {
           $('#main-score').addClass('flash-red');
           setTimeout(function() {
@@ -83,10 +90,19 @@ function draw() {
     bombsArray[i].dropBomb();
     if (bombsArray[i].hits(ship)) {
       bombsArray[i].boom();
-      ship.lives = ship.lives - 1;
-      console.log("lives", ship.lives);
+      lives = lives - 1;
+      updateLives(lives);
 
-
+      if (lives <= 0) {
+        var friendlySurvivorCount = 0;
+        for (var i = 0; i < aliens.length; i++) {
+          if (aliens[i].friendly === true) {
+            friendlySurvivorCount += 1;
+          }
+        }
+        var enemiesLeftCount = aliens.length - friendlySurvivorCount;
+        endGame(friendlySurvivorCount, enemiesLeftCount);
+      }
     }
   }
 
@@ -104,10 +120,7 @@ function draw() {
     }
   }
 
-  // if (aliens.length === 0) {
-  //   hitBottom = true;
-  // }
-
+  // If no enemy Aliens are left, end the game early
   var enemyCount = 0;
   for (var i = 0; i < aliens.length; i++) {
     if (aliens[i].friendly === false) {
@@ -187,7 +200,9 @@ function welcomePage() {
   noLoop();
   gameHasStarted = false;
   score = 0;
+  lives = 3;
   updateScore(score);
+  updateLives(lives);
   $('#score').hide();
   $('.highscore').hide();
   welcomeDiv = createElement('div');
@@ -325,6 +340,10 @@ function updateScore(score) {
   $('.score').html(`Score: ${score}`);
 }
 
+function updateLives(lives) {
+  $('.lives').html(`Lives: ${lives}`);
+}
+
 
 function slowFrameRate() {
   if (frameCount % 2 === 0) {
@@ -359,6 +378,7 @@ function keyPressed() {
       $('div.welcome').hide();
       gameHasStarted = true;
       $('.score').show();
+      $('.lives').show();
       resetSketch();
       loop();
     } else {
