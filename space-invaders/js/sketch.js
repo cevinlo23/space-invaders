@@ -203,6 +203,7 @@ function welcomePage() {
   lives = 3;
   updateScore(score);
   updateLives(lives);
+  $('#string-container').hide();
   $('#score').hide();
   $('.highscore').hide();
   welcomeDiv = createElement('div');
@@ -377,6 +378,7 @@ function keyPressed() {
     if (gameHasStarted === false) {
       $('div.welcome').hide();
       gameHasStarted = true;
+      $('#string-container').show();
       $('.score').show();
       $('.lives').show();
       resetSketch();
