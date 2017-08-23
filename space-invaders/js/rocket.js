@@ -3,10 +3,9 @@ function Rocket(x, y) {
   this.y = y;
   this.radius = 3;
   this.flaggedForDelete = false;
-  this.velocity = 3;
+  this.velocity = 5;
 
   this.show = function() {
-    //noStroke();
     fill(229, 6, 6);
     ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
   }

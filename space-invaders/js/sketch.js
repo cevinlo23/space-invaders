@@ -66,7 +66,6 @@ function draw() {
       if (rocketsArray[i].hits(aliens[j])) {
         aliens[j].explode();
         rocketsArray[i].boom();
-        //console.log(aliens);
         score += aliens[j].points;
         updateScore(score);
         if (aliens[j].friendly === true) {
@@ -82,6 +81,13 @@ function draw() {
   for (var i = 0; i < bombsArray.length; i++) {
     bombsArray[i].show();
     bombsArray[i].dropBomb();
+    if (bombsArray[i].hits(ship)) {
+      bombsArray[i].boom();
+      ship.lives = ship.lives - 1;
+      console.log("lives", ship.lives);
+
+
+    }
   }
 
   // Checks to see if aliens have hit the edge, if so then move them down one row
@@ -165,8 +171,8 @@ function draw() {
       bombsArray.push(new Bomb(alien.x, alien.y + alien.radius));
     }
   }
-  console.log(bombsArray);
 
+  // Clears bombs that have hit the ship or gone off screen
   for (var i = bombsArray.length - 1; i >= 0; i--) {
     if (bombsArray[i].flaggedForDelete) {
       bombsArray.splice(i, 1);

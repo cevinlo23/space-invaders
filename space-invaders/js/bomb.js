@@ -3,7 +3,7 @@ function Bomb(x, y) {
   this.y = y;
   this.radius = 3;
   this.flaggedForDelete = false;
-  this.velocity = 5;
+  this.velocity = 3;
 
 
   this.show = function() {
@@ -29,9 +29,15 @@ function Bomb(x, y) {
     //   return false;
     // }
 
-    hit = collideLineRect(this.x, this.y, this.x, this.y + 3, ship.x, ship.y, 60, 20);
-    console.log(hit);
-    return hit;
+    if (this.x >= (ship.x - 30) && this.x <= (ship.x + 30) && this.y >= (ship.y - 10) && this.y <= (ship.y + 10)) {
+      return true;
+    } else {
+      return false;
+    }
+
+    // hit = collideLineRect(this.x, this.y, this.x, this.y + 3, ship.x, ship.y, 60, 20);
+    // console.log(hit);
+    // return hit;
   }
 
   this.boom = function() {
