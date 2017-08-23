@@ -53,7 +53,7 @@ nav#buttons {
   color: white;
 }
 
-.highscore-list-item {
+.highscore-header {
   text-align: center;
 }
 
@@ -61,6 +61,27 @@ ol.list {
   list-style-type: lower-roman;
   margin: 0 auto;
   padding: 0;
+}
+
+.highscore-list-item {
+  margin-left: 2.5em;
+}
+
+.btn-div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.highscore-btn {
+  margin: 1em;
+  padding: 1em;
+  flex: 1;
+}
+
+.form-div {
+  margin: 2em auto;
+  text-align: center;
 }
 
 .welcome {
@@ -77,4 +98,24 @@ footer {
   background-color: #515151;
   width: 100%;
   height: 2em;
+}
+
+.blink {
+  animation: blink 2s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.flash-red {
+  animation: flash-red 2s linear 1;
+}
+
+@keyframes flash-red {
+  50% {
+    background-color: red;
+  }
 }

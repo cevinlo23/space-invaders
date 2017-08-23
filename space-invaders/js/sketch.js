@@ -4,10 +4,11 @@ var alienColumns = 11;
 var aliens = [];
 var rocketsArray = [];
 var score = 0;
-var pauseCount, frameCount = 0;
+var pauseCount = 0;
+var frameCount = 0;
 var gameHasStarted = false;
 var highscoreObjectArray = [];
-console.log(frameCount);
+var aliensImg = [];
 
 for (t = 1; t <= 10; t++) {
   highscoreObjectArray.push({
@@ -18,19 +19,23 @@ for (t = 1; t <= 10; t++) {
 
 
 function setup() {
-  var playButton = createButton("pause/play").parent('buttons');
+  var playButton = createButton("Pause/Play").parent('buttons');
   playButton.mousePressed(pause);
-  var resetButton = createButton("reset").parent('buttons');
+  var resetButton = createButton("Reset").parent('buttons');
   resetButton.mousePressed(welcomePage);
   var slowButton = createButton("1/2 Speed").parent('buttons');
   slowButton.mousePressed(slowFrameRate);
-  var highScoreButton = createButton("highscores").parent('buttons');
-  highScoreButton.mousePressed(endGame);
-
-  // var scoresDiv = createElement('aside', 'View Your Score:');
-  // scoresDiv.class('aside scores');
-  // scoresDiv.parent('container');
-  // scoresDiv.hide();
+  var highScoreButton = createButton("Highscores").parent('buttons');
+  highScoreButton.mousePressed(function() {
+    var friendlySurvivorCount = 0;
+    for (var i = 0; i < aliens.length; i++) {
+      if (aliens[i].friendly === true) {
+        friendlySurvivorCount += 1;
+      }
+    }
+    var enemiesLeftCount = aliens.length - friendlySurvivorCount;
+    endGame(friendlySurvivorCount, enemiesLeftCount);
+  });
 
   canvas = createCanvas(600, 600);
   canvas.position(((1680 / 2) - 300), 111.18);
@@ -81,7 +86,7 @@ function draw() {
     if (aliens[i].x > width || aliens[i].x < 0) {
       hitEdge = true;
     }
-    if (aliens[i].y >= height - 25) {
+    if (aliens[i].y >= height - 40) {
       hitBottom = true; // Hit the bottom, Game Over!!
     }
   }
@@ -161,13 +166,13 @@ function welcomePage() {
 
 function endGame(friendlySurvivorCount, enemiesLeftCount) {
   noLoop();
-  var enemiesDestroyed = 55 - enemiesLeftCount;
+  var enemiesDestroyed = 55 - enemiesLeftCount - friendlySurvivorCount;
   var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
   var finalScore = score + bonus;
 
   $('#score').empty();
   $('#score').show();
-  showHighscoreList();
+  showHighscoreList(finalScore);
 
   // Display Score Div
   var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
@@ -178,17 +183,65 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
 }
 
 
-function showHighscoreList() {
+function showHighscoreList(finalScore = 0) {
   highscoreDiv = createElement('div');
   highscoreDiv.class('highscore').size(600, 600);
-  var title = createElement('h2', 'HIGHSCORES').class('highscore-list-item').parent(highscoreDiv);
+  var title = createElement('h2', 'HIGHSCORES').class('highscore-header').parent(highscoreDiv);
   var break0 = createElement('br').parent(highscoreDiv);
-  var highscoreList = createElement('ol').class('list').parent(highscoreDiv);
+  emptyDiv = createDiv(' ').class('empty').size(600, 300).parent(highscoreDiv);
+
+  displayHighscoreList();
+
+  var break1 = createElement('br').parent(highscoreDiv);
+  var buttonDiv = createDiv('').class('btn-div').parent(highscoreDiv);
+
+  if (finalScore > highscoreObjectArray[highscoreObjectArray.length - 1].score) {
+    var addHighscoreButton = createButton('ADD YOUR HIGHSCORE').class('highscore-btn').parent(buttonDiv);
+    addHighscoreButton.mousePressed(function() {
+      addHighscore(finalScore)
+    });
+  }
+  var playAgainButton = createButton('PLAY AGAIN').class('highscore-btn').parent(buttonDiv);
+  playAgainButton.mousePressed(welcomePage);
+  highscoreDiv.position(540, 111.18);
+}
+
+
+function addHighscore(finalScore) {
+  $('.form-div').empty();
+  var formDiv = createDiv('Please Type Your Name').class('form-div').parent(highscoreDiv);
+  var break0 = createElement('br').parent(formDiv);
+  var nameInput = createInput().parent(formDiv);
+  var nameButton = createButton('submit').parent(formDiv);
+  nameButton.mousePressed(function() {
+    updateHighscoreList(nameInput.value(), finalScore);
+  })
+}
+
+function updateHighscoreList(username, finalScore) {
+  var i = 0;
+  while (i < highscoreObjectArray.length && highscoreObjectArray[i].score > finalScore) {
+    i++;
+  }
+  if (i < highscoreObjectArray.length) {
+    //found a place to insert the score
+    for (var j = highscoreObjectArray.length - 1; j > i; j--) {
+      highscoreObjectArray[j].score = highscoreObjectArray[j - 1].score;
+    }
+    highscoreObjectArray[i].score = finalScore;
+    highscoreObjectArray[i].name = username;
+  }
+  displayHighscoreList();
+}
+
+
+function displayHighscoreList() {
+  $('.empty').empty();
+  var highscoreList = createElement('ol').class('list').parent(emptyDiv);
   for (var i = 0; i < highscoreObjectArray.length; i++) {
     //create p tags and append to highscore
     createP(`${i + 1}. &emsp;${highscoreObjectArray[i].name}&emsp;${highscoreObjectArray[i].score}`).class('highscore-list-item').parent(highscoreList);
   }
-  highscoreDiv.position(540, 111.18);
 }
 
 

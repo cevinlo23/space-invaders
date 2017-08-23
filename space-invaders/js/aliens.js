@@ -8,7 +8,7 @@ function Alien(x, y) {
   this.friendly = false;
   this.color = '#ff00c8';
   this.bombRate = 0.02;
-  //this.image = '/Users/yjh296/Desktop/sandbox/unit-1-project/space-invaders/space-invaders/images/space-invaders-sprite1.jpg'
+  this.image = '/Users/yjh296/Desktop/sandbox/unit-1-project/space-invaders/space-invaders/images/space-invaders-sprite1.jpg'
 
 
   this.show = function() {
