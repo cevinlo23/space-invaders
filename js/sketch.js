@@ -22,7 +22,8 @@ for (t = 1; t <= 10; t++) {
     score: (550 - (t * 50))
   });
 }
-window.localStorage.setItem("highscoreObjectArray", highscoreObjectArray);
+// window.localStorage.setItem("highscoreObjectArray", highscoreObjectArray);
+// highscoreObjectArray = window.localStorage.getItem("highscoreObjectArray");
 
 function preload() {
   explosionSound = loadSound('sounds/Input/Input-03.mp3');
@@ -318,6 +319,7 @@ function updateHighscoreList(username, finalScore) {
       //found a place to insert the score
       for (var j = highscoreObjectArray.length - 1; j > i; j--) {
         highscoreObjectArray[j].score = highscoreObjectArray[j - 1].score;
+        highscoreObjectArray[j].name = highscoreObjectArray[j - 1].name;
       }
       highscoreObjectArray[i].score = finalScore;
       highscoreObjectArray[i].name = username;
