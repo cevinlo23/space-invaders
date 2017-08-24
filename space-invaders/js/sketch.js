@@ -13,6 +13,7 @@ var updatedHighscore = false;
 var lives = 3;
 //var aliensImg = [];
 var explosionSound;
+var shipExplodesSound;
 
 // initializing highscore object
 for (t = 1; t <= 10; t++) {
@@ -221,6 +222,8 @@ function welcomePage() {
   gameHasStarted = false;
   score = 0;
   lives = 3;
+  rocketsArray = [];
+  bombsArray = [];
   updateScore(score);
   updateLives(lives);
   $('#string-container').hide();
