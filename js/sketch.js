@@ -22,8 +22,10 @@ for (t = 1; t <= 10; t++) {
     score: (550 - (t * 50))
   });
 }
-// window.localStorage.setItem("highscoreObjectArray", highscoreObjectArray);
-// highscoreObjectArray = window.localStorage.getItem("highscoreObjectArray");
+
+for (var p = 1; p < highscoreObjectArray.length + 1; p++) {
+  window.localStorage.setItem(`highscore-${p}`, highscoreObjectArray[p - 1].score);
+}
 
 function preload() {
   explosionSound = loadSound('sounds/Input/Input-03.mp3');
