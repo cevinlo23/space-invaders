@@ -1,5 +1,9 @@
-# space-invaders
+# Space-Invaders II
 
 https://wireframe.cc/h1ye9w
 
-Screen Shot 2017-08-21 at 10.48.59 AM
+https://trello.com/b/PnU0AWS5/space-invaders
+
+Trello Board contains User Stories as Well.
+
+*Note*: was not able to make game responsive due to the use of absolute positioning for the canvas object used with the p5.js library.
