@@ -5,7 +5,7 @@ function Ship() {
   //this.lives = 5;
 
   this.show = function() {
-    fill(253, 116, 0);
+    fill(138, 31, 244);
     rectMode(CENTER);
     rect(this.x, this.y, 60, 20);
   }
