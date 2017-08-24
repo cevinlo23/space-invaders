@@ -117,6 +117,14 @@ ol.list {
   padding-top: 90px;
 }
 
+.green {
+  color: #2be51d;
+}
+
+.red {
+  color: #f230db;
+}
+
 #string-container {
   display: flex;
   flex-flow: row wrap;

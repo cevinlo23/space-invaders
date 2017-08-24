@@ -221,12 +221,12 @@ function welcomePage() {
   welcomeDiv = createElement('div');
   welcomeDiv.class('welcome').size(600, 600);
 
-  var p0 = createP('Welcome to Space-Invaders!').class('firstP').parent(welcomeDiv);
+  var p0 = createP('Welcome to Space-Invaders II!').class('firstP').parent(welcomeDiv);
   var break0 = createElement('br').parent(welcomeDiv);
   var p1 = createP(`  Manuver your Ship and Destroy the Descending Invaders.
-       Shoot the Red Invaders but Avoid Shooting the Friendly Green Aliens  `).parent(welcomeDiv);
+       Shoot the <span class='red'>Red</span> Polyspheres but Avoid Shooting the Friendly <span class='green'>Green</span> Polyspheres  `).parent(welcomeDiv);
   var break1 = createElement('br').parent(welcomeDiv);
-  var p2 = createP(` <-  ->     Move`).parent(welcomeDiv);
+  var p2 = createP(`&ensp;<-  ->  &emsp;Move`).parent(welcomeDiv);
   var p3 = createP('SPACEBAR    Shoot').parent(welcomeDiv);
   var break2 = createElement('br').parent(welcomeDiv);
   var break3 = createElement('br').parent(welcomeDiv);
@@ -249,8 +249,8 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
 
   // Display Score and Game Statistics When Game is Over
   var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
-  var survivorPoints = createP(` -- Number of Survivors Saved: ${friendlySurvivorCount}`).parent('score');
-  var enemyPoints = createP(` -- Number of Enemies Destroyed: ${enemiesDestroyed}`).parent('score');
+  var survivorPoints = createP(` -- Number of Survivors Saved: &emsp;&emsp;&emsp;${friendlySurvivorCount} x &ensp;150 = ${friendlySurvivorCount * 150}`).parent('score');
+  var enemyPoints = createP(` -- Number of Enemies Left Alive: ${enemiesLeftCount} x -25 = ${enemiesLeftCount * -25}`).parent('score');
   var p = createP(`**************************************************`).parent('score');
   var finalPoints = createP(`Final Score: ${finalScore}`).class('final').parent('score');
 }
