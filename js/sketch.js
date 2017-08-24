@@ -10,8 +10,8 @@ var pauseCount = 0;
 var frameCount = 0;
 var gameHasStarted = false;
 var updatedHighscore = false;
+var destroyedAllEnemies = false;
 var lives = 3;
-//var aliensImg = [];
 var explosionSound;
 var shipExplodesSound;
 
@@ -21,10 +21,6 @@ for (t = 1; t <= 10; t++) {
     name: 'name',
     score: (550 - (t * 50))
   });
-}
-
-for (var p = 1; p < highscoreObjectArray.length + 1; p++) {
-  window.localStorage.setItem(`highscore-${p}`, highscoreObjectArray[p - 1].score);
 }
 
 function preload() {
@@ -151,6 +147,7 @@ function draw() {
 
   if (enemyCount === 0) {
     hitBottom = true;
+    destroyedAllEnemies = true;
   }
 
   // if Aliens reach the bottom, then end the game.
@@ -222,6 +219,7 @@ function draw() {
 function welcomePage() {
   noLoop();
   gameHasStarted = false;
+  destroyedAllEnemies = false;
   score = 0;
   lives = 3;
   rocketsArray = [];
@@ -257,17 +255,24 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
   updatedHighscore = false;
   var enemiesDestroyed = 55 - enemiesLeftCount - friendlySurvivorCount;
   var bonus = (friendlySurvivorCount * 150) - (25 * enemiesLeftCount);
-  var finalScore = score + bonus;
+  if (destroyedAllEnemies) {
+    var bonusExplodedAll = 350;
+  } else {
+    var bonusExplodedAll = 0;
+
+  }
+  var finalScore = score + bonus + bonusExplodedAll;
 
   $('#score').empty();
   $('#score').show();
   showHighscoreList(finalScore);
 
   // Display Score and Game Statistics When Game is Over
-  var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
-  var survivorPoints = createP(` -- Number of Survivors Saved: &emsp;&emsp;&emsp;${friendlySurvivorCount} x &ensp;150 = ${friendlySurvivorCount * 150}`).parent('score');
-  var enemyPoints = createP(` -- Number of Enemies Left Alive: ${enemiesLeftCount} x -25 = ${enemiesLeftCount * -25}`).parent('score');
-  var p = createP(`**************************************************`).parent('score');
+  var bonusPoints = createP('********************* BONUS POINTS *********************').parent('score');
+  var survivorPoints = createP(` -- Number of Survivors Saved: &emsp;&emsp;&ensp;${friendlySurvivorCount} x &ensp;150pts = ${friendlySurvivorCount * 150}pts`).parent('score');
+  var enemyPoints = createP(` -- Number of Enemies Left Alive: ${enemiesLeftCount} x -25pts = ${enemiesLeftCount * -25}pts`).parent('score');
+  var explodedAllPoints = createP(` -- Destroyed All Enemies: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;${destroyedAllEnemies} --> ${bonusExplodedAll}pts`).parent('score');
+  var p = createP(`********************************************************`).parent('score');
   var finalPoints = createP(`Final Score: ${finalScore}`).class('final').parent('score');
 }
 
