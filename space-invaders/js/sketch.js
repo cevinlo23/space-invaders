@@ -12,6 +12,7 @@ var gameHasStarted = false;
 var updatedHighscore = false;
 var lives = 3;
 //var aliensImg = [];
+var explosionSound;
 
 // initializing highscore object
 for (t = 1; t <= 10; t++) {
@@ -19,6 +20,11 @@ for (t = 1; t <= 10; t++) {
     name: 'name',
     score: (550 - (t * 50))
   });
+}
+
+function preload() {
+  explosionSound = loadSound('sounds/Input/Input-03.mp3');
+  shipExplodesSound = loadSound('sounds/Alert/Alert-03.mp3')
 }
 
 // setup function will be called once at the start of the program
@@ -78,6 +84,7 @@ function draw() {
       if (rocketsArray[i].hits(aliens[j])) {
         aliens[j].explode();
         rocketsArray[i].boom();
+        explosionSound.play();
         score += aliens[j].points;
         updateScore(score);
 
@@ -97,6 +104,7 @@ function draw() {
     bombsArray[i].dropBomb();
     if (bombsArray[i].hits(ship)) {
       bombsArray[i].boom();
+      shipExplodesSound.play();
       lives = lives - 1;
       updateLives(lives);
 
@@ -221,15 +229,18 @@ function welcomePage() {
   welcomeDiv = createElement('div');
   welcomeDiv.class('welcome').size(600, 600);
 
-  var p0 = createP('Welcome to Space-Invaders II!').class('firstP').parent(welcomeDiv);
+  var p0 = createP('Welcome to Space-Invaders II').class('firstP').style('font-size', '20px').parent(welcomeDiv);
   var break0 = createElement('br').parent(welcomeDiv);
   var p1 = createP(`  Manuver your Ship and Destroy the Descending Invaders.
        Shoot the <span class='red'>Red</span> Polyspheres but Avoid Shooting the Friendly <span class='green'>Green</span> Polyspheres  `).parent(welcomeDiv);
-  var break1 = createElement('br').parent(welcomeDiv);
+  for (var i = 0; i < 3; i++) {
+    createElement('br').parent(welcomeDiv);
+  }
   var p2 = createP(`&ensp;<-  ->  &emsp;Move`).parent(welcomeDiv);
   var p3 = createP('SPACEBAR    Shoot').parent(welcomeDiv);
-  var break2 = createElement('br').parent(welcomeDiv);
-  var break3 = createElement('br').parent(welcomeDiv);
+  for (var i = 0; i < 7; i++) {
+    createElement('br').parent(welcomeDiv);
+  }
   var p4 = createP("  Press ENTER to Play  ").class('blink').parent(welcomeDiv);
   welcomeDiv.position(540, 111.18);
   welcomeDiv.style('background-color', 'black').style('color', 'white');
