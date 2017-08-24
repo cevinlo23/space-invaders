@@ -1,0 +1,166 @@
+@font-face {
+  font-family: 'Cosmic Alien';
+  src: url('fonts/ca.ttf');
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: 'Cosmic Alien', monospace;
+}
+
+h1 {
+  text-align: center;
+}
+
+#wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+nav#buttons {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+#buttons button {
+  margin: 1em;
+}
+
+#container {
+  flex: 1;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  margin-top: -960px;
+}
+
+.score {
+  text-align: center;
+}
+
+.final {
+  text-align: right;
+}
+
+.highscore {
+  background-color: #333333;
+  color: white;
+}
+
+.highscore-header {
+  text-align: center;
+}
+
+input {
+  margin-right: 1.5em;
+  margin-top: 1.5em;
+}
+
+.form-div button {
+  margin-top: 1.5em;
+}
+
+ol.list {
+  list-style-type: lower-roman;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.highscore-list-item {
+  margin-left: 2.5em;
+}
+
+.btn-div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.highscore-btn {
+  margin: 1em;
+  padding: 1em;
+  flex: 1;
+}
+
+.form-div {
+  margin: 2em auto;
+  text-align: center;
+}
+
+#img-container {
+  background-color: #141414;
+}
+
+#super-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.img-div {
+  background-color: #141414;
+  width: 20%;
+  height: 960px;
+}
+
+.welcome {
+  text-align: center;
+}
+
+.firstP {
+  padding-top: 90px;
+}
+
+.green {
+  color: #2be51d;
+}
+
+.red {
+  color: #f230db;
+}
+
+#string-container {
+  display: flex;
+  flex-flow: row wrap;
+  width: 600px;
+  justify-content: space-between;
+}
+
+footer {
+  background-color: #141414;
+  width: 100%;
+  height: 1.5em;
+}
+
+.blink {
+  animation: blink 2s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.flash-red {
+  animation: flash-red 2s linear 1;
+}
+
+@keyframes flash-red {
+  50% {
+    background-color: red;
+  }
+}
