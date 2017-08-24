@@ -2,7 +2,6 @@ function Ship() {
   this.x = width / 2;
   this.y = height - 22;
   this.xdir = 0;
-  //this.lives = 5;
 
   this.show = function() {
     fill(138, 31, 244);

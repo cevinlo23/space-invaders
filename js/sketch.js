@@ -48,14 +48,10 @@ function setup() {
     endGame(friendlySurvivorCount, enemiesLeftCount);
   });
 
-  //var imgDiv1 = createDiv('').class('img-div').parent('container');
-
   canvas = createCanvas(600, 600);
   canvas.position(((1680 / 2) - 300), 111.18);
   canvas.class('canvas');
   canvas.parent('container');
-
-  //var imgDiv2 = createDiv('').class('img-div').parent('container');
 
   var scoreString = createP(`Score: ${score}`).class('score');
   scoreString.parent('main-score');
@@ -77,13 +73,12 @@ function draw() {
   ship.move();
 
   // Displays and fires any rockets in the rocket array
-  // If alien is hit, call explode function
   for (var i = 0; i < rocketsArray.length; i++) {
     rocketsArray[i].show();
     rocketsArray[i].shoot();
     for (var j = 0; j < aliens.length; j++) {
       if (rocketsArray[i].hits(aliens[j])) {
-        aliens[j].explode();
+        aliens[j].explode(); // If alien is hit, call explode function
         rocketsArray[i].boom();
         explosionSound.play();
         score += aliens[j].points;
@@ -100,6 +95,7 @@ function draw() {
     }
   }
 
+  // If bombs hit ship, then decrement lives and check if game is over.
   for (var i = 0; i < bombsArray.length; i++) {
     bombsArray[i].show();
     bombsArray[i].dropBomb();
@@ -153,6 +149,7 @@ function draw() {
     hitBottom = true;
   }
 
+  // if Aliens reach the bottom, then end the game.
   if (hitBottom) {
     var friendlySurvivorCount = 0;
     for (var i = 0; i < aliens.length; i++) {
@@ -164,6 +161,7 @@ function draw() {
     endGame(friendlySurvivorCount, enemiesLeftCount);
   }
 
+  // if Aliens hit the side edge, then have them all move down.
   if (hitEdge) {
     for (var i = 0; i < aliens.length; i++) {
       aliens[i].shiftDown();
@@ -294,6 +292,7 @@ function showHighscoreList(finalScore = 0) {
 }
 
 
+// function to create input tag to add highscore
 function addHighscore(finalScore) {
   $('.form-div').empty();
   var formDiv = createDiv('Please Type Your Name').class('form-div').parent(highscoreDiv);
@@ -305,6 +304,8 @@ function addHighscore(finalScore) {
   })
 }
 
+
+// function to iterate through highscore object and updates it
 function updateHighscoreList(username, finalScore) {
   if (updatedHighscore === false) {
     updatedHighscore = true;
@@ -371,8 +372,13 @@ function updateScore(score) {
   $('.score').html(`Score: ${score}`);
 }
 
+
 function updateLives(lives) {
-  $('.lives').html(`Lives: ${lives}`);
+  var livesStringFormatted = '';
+  for (var k = 0; k < lives; k++) {
+    livesStringFormatted += " * ";
+  }
+  $('.lives').html(`Lives: ${lives} ${livesStringFormatted}`);
 }
 
 

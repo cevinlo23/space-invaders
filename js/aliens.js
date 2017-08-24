@@ -16,9 +16,6 @@ function Alien(x, y) {
     noStroke();
     fill(this.color);
     ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
-
-    // var img = loadImage(this.image);
-    // image(img, this.x, this.y, 30, 30);
   }
 
   this.explode = function() {
