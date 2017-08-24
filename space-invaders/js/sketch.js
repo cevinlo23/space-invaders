@@ -4,15 +4,16 @@ var alienColumns = 11;
 var aliens = [];
 var rocketsArray = [];
 var bombsArray = [];
+var highscoreObjectArray = [];
 var score = 0;
 var pauseCount = 0;
 var frameCount = 0;
 var gameHasStarted = false;
-var highscoreObjectArray = [];
-//var aliensImg = [];
 var updatedHighscore = false;
 var lives = 3;
+//var aliensImg = [];
 
+// initializing highscore object
 for (t = 1; t <= 10; t++) {
   highscoreObjectArray.push({
     name: 'name',
@@ -20,7 +21,7 @@ for (t = 1; t <= 10; t++) {
   });
 }
 
-
+// setup function will be called once at the start of the program
 function setup() {
   var playButton = createButton("Pause/Play").parent('buttons');
   playButton.mousePressed(pause);
@@ -40,10 +41,14 @@ function setup() {
     endGame(friendlySurvivorCount, enemiesLeftCount);
   });
 
+  //var imgDiv1 = createDiv('').class('img-div').parent('container');
+
   canvas = createCanvas(600, 600);
   canvas.position(((1680 / 2) - 300), 111.18);
   canvas.class('canvas');
   canvas.parent('container');
+
+  //var imgDiv2 = createDiv('').class('img-div').parent('container');
 
   var scoreString = createP(`Score: ${score}`).class('score');
   scoreString.parent('main-score');
@@ -58,6 +63,7 @@ function setup() {
 }
 
 
+// draw function will continously loop as long as the program is running
 function draw() {
   background(51);
   ship.show();
@@ -234,14 +240,14 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
   noLoop();
   updatedHighscore = false;
   var enemiesDestroyed = 55 - enemiesLeftCount - friendlySurvivorCount;
-  var bonus = (friendlySurvivorCount * 150) - (50 * enemiesLeftCount);
+  var bonus = (friendlySurvivorCount * 150) - (25 * enemiesLeftCount);
   var finalScore = score + bonus;
 
   $('#score').empty();
   $('#score').show();
   showHighscoreList(finalScore);
 
-  // Display Score Div
+  // Display Score and Game Statistics When Game is Over
   var bonusPoints = createP('****************** BONUS POINTS ******************').parent('score');
   var survivorPoints = createP(` -- Number of Survivors Saved: ${friendlySurvivorCount}`).parent('score');
   var enemyPoints = createP(` -- Number of Enemies Destroyed: ${enemiesDestroyed}`).parent('score');
