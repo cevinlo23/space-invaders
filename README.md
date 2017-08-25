@@ -1,8 +1,8 @@
-# Space-Invaders II
-## A Game By Andy Loh
+# Space-Invaders II: "Descent of the Polygons"
+##  - A Game By Andy Loh -
 
 
-### links
+ ### Links
  - https://wireframe.cc/h1ye9w
  - https://trello.com/b/PnU0AWS5/space-invaders
  - *Note* Trello Board contains User Stories as Well.

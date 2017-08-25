@@ -235,7 +235,7 @@ function welcomePage() {
 
   // creating welcome page
   var p0 = createP('Welcome to Space-Invaders II:').class('firstP').style('font-size', '20px').parent(welcomeDiv);
-  var title = createP('"Rise of the Polygons"').class('secondP').style('font-size', '16px').parent(welcomeDiv);
+  var title = createP('"Descent of the Polygons"').class('secondP').style('font-size', '16px').parent(welcomeDiv);
   var break0 = createElement('br').parent(welcomeDiv);
   var p1 = createP(`  Manuver your Ship and Destroy the Descending Invaders.
        Shoot the <span class='red'>Red</span> Polyspheres but Avoid Shooting the Friendly <span class='green'>Green</span> Polyspheres  `).parent(welcomeDiv);
