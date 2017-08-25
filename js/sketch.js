@@ -169,6 +169,7 @@ function draw() {
     }
   }
 
+  // continuous iterate through rocket and bomb arrays and delete those that are off screen/have exploded
   for (var i = rocketsArray.length - 1; i >= 0; i--) {
     if (rocketsArray[i].flaggedForDelete) {
       rocketsArray.splice(i, 1);
@@ -176,7 +177,6 @@ function draw() {
       rocketsArray.splice(i, 1);
     }
   }
-
   for (var i = aliens.length - 1; i >= 0; i--) {
     if (aliens[i].flaggedForDelete) {
       aliens.splice(i, 1)
@@ -217,13 +217,14 @@ function draw() {
 
 
 function welcomePage() {
-  noLoop();
+  noLoop(); //noLoop will stop the draw method until loop is called.
   gameHasStarted = false;
   destroyedAllEnemies = false;
   score = 0;
   lives = 3;
   rocketsArray = [];
   bombsArray = [];
+
   updateScore(score);
   updateLives(lives);
   $('#string-container').hide();
@@ -232,6 +233,7 @@ function welcomePage() {
   welcomeDiv = createElement('div');
   welcomeDiv.class('welcome').size(600, 600);
 
+  // creating welcome page
   var p0 = createP('Welcome to Space-Invaders II:').class('firstP').style('font-size', '20px').parent(welcomeDiv);
   var title = createP('"Rise of the Polygons"').class('secondP').style('font-size', '16px').parent(welcomeDiv);
   var break0 = createElement('br').parent(welcomeDiv);
@@ -246,7 +248,7 @@ function welcomePage() {
     createElement('br').parent(welcomeDiv);
   }
   var p4 = createP("  Press ENTER to Play  ").class('blink').parent(welcomeDiv);
-  welcomeDiv.position(540, 111.18);
+  welcomeDiv.position(540, 111.18); //position the welcomeDiv over the canvas
   welcomeDiv.style('background-color', 'black').style('color', 'white');
 }
 
@@ -290,6 +292,7 @@ function showHighscoreList(finalScore = 0) {
   var break1 = createElement('br').parent(highscoreDiv);
   var buttonDiv = createDiv('').class('btn-div').parent(highscoreDiv);
 
+  // only allow a player to add highscore if their score is high enough
   if (finalScore > highscoreObjectArray[highscoreObjectArray.length - 1].score) {
     var addHighscoreButton = createButton('ADD YOUR HIGHSCORE').class('highscore-btn').parent(buttonDiv);
     addHighscoreButton.mousePressed(function() {
@@ -307,9 +310,8 @@ function addHighscore(finalScore) {
   $('.form-div').empty();
   var formDiv = createDiv('Please Type Your Name').class('form-div').parent(highscoreDiv);
   var break0 = createElement('br').parent(formDiv);
-  var nameInput = createInput().parent(formDiv);
+  var nameInput = createInput().class('name-input').parent(formDiv);
   var nameButton = createButton('submit').parent(formDiv);
-  localStorage.setItem(nameInput.value(), finalScore);
   nameButton.mousePressed(function() {
     updateHighscoreList(nameInput.value(), finalScore);
   })
@@ -318,6 +320,8 @@ function addHighscore(finalScore) {
 
 // function to iterate through highscore object and updates it
 function updateHighscoreList(username, finalScore) {
+  localStorage.setItem(username, finalScore);
+  //console.log(localStorage);
   if (updatedHighscore === false) {
     updatedHighscore = true;
     var i = 0;
@@ -360,6 +364,9 @@ function pause() {
 
 
 function resetSketch() {
+  frameRate(60);
+  pauseCount = 0;
+  frameCount = 0;
   aliens = [];
   // Displays ship and aliens
   ship = new Ship();
