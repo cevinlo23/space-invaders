@@ -19,7 +19,7 @@ var shipExplodesSound;
 for (t = 1; t <= 10; t++) {
   highscoreObjectArray.push({
     name: 'name',
-    score: (550 - (t * 50))
+    score: (1100 - (t * 100))
   });
 }
 
@@ -273,7 +273,7 @@ function endGame(friendlySurvivorCount, enemiesLeftCount) {
   var enemyPoints = createP(` -- Number of Enemies Left Alive: ${enemiesLeftCount} x -25pts = ${enemiesLeftCount * -25}pts`).parent('score');
   var explodedAllPoints = createP(` -- Destroyed All Enemies: &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;${destroyedAllEnemies} --> ${bonusExplodedAll}pts`).parent('score');
   var p = createP(`********************************************************`).parent('score');
-  var finalPoints = createP(`Final Score: ${finalScore}`).class('final').parent('score');
+  var finalPoints = createP(`Final Score: ${finalScore}`).class('final flash-red').parent('score');
 }
 
 
@@ -308,6 +308,7 @@ function addHighscore(finalScore) {
   var break0 = createElement('br').parent(formDiv);
   var nameInput = createInput().parent(formDiv);
   var nameButton = createButton('submit').parent(formDiv);
+  localStorage.setItem(nameInput.value(), finalScore);
   nameButton.mousePressed(function() {
     updateHighscoreList(nameInput.value(), finalScore);
   })
@@ -436,3 +437,17 @@ function keyPressed() {
 }
 
 function mousePressed() {}
+
+// Makes the animation to have the sprites move
+var imgCounter = 0;
+setInterval(function() {
+  if (imgCounter % 2 === 0) {
+    $('#sprite1').attr('src', 'images/space-invaders-sprite1.jpg');
+    $('#sprite2').attr('src', 'images/space-invaders-sprite2.jpg');
+    imgCounter += 1;
+  } else if (imgCounter % 2 === 1) {
+    $('#sprite1').attr('src', 'images/space-invaders-sprite2.jpg');
+    $('#sprite2').attr('src', 'images/space-invaders-sprite1.jpg');
+    imgCounter += 1;
+  }
+}, 2000);

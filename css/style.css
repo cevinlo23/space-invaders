@@ -156,7 +156,7 @@ footer {
 }
 
 .flash-red {
-  animation: flash-red 2s linear 1;
+  animation: flash-red 2s linear infinite;
 }
 
 @keyframes flash-red {
