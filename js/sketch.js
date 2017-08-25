@@ -321,7 +321,8 @@ function addHighscore(finalScore) {
 // function to iterate through highscore object and updates it
 function updateHighscoreList(username, finalScore) {
   localStorage.setItem(username, finalScore);
-  //console.log(localStorage);
+
+  var localHighscoreList = createLocalHighscoreList();
   if (updatedHighscore === false) {
     updatedHighscore = true;
     var i = 0;
@@ -341,6 +342,24 @@ function updateHighscoreList(username, finalScore) {
   }
 }
 
+function createLocalHighscoreList() {
+  var localHighscoreList = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var val = localStorage.getItem(key);
+    localHighscoreList[i] = {
+      name: key,
+      score: val
+    };
+  }
+
+  //sort local highscores by score
+  localHighscoreList.sort(function(a, b) {
+    return (b.score) - (a.score);
+  });
+  //console.log(localHighscoreList);
+  return localHighscoreList;
+}
 
 function displayHighscoreList() {
   $('.empty').empty();
