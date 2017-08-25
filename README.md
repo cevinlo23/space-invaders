@@ -6,19 +6,19 @@ https://trello.com/b/PnU0AWS5/space-invaders
 
 
  ### Technologies used
-     - HTML, CSS, JS, jQuery, p5.js Library
+     - HTML, CSS, JS, jQuery, p5.js Library (p5.dom, p5.sound, p5.collide2d)
 
  ### Your process/approach.
-     - I used an object oriented approach for this project. Every javascript file in the JS folder besides sketch.js is a separate object prototype. In sketch.js I create objects from the prototype templates and use them with the p5 library to display a canvas where the objects and interact. p5.js allows the user to easily display graphics and animations using the canvas as well as using the built-in setup and draw functions. After writing all the game logic to make the objects on the canvas interact, the next step was to write the code to allow for different game states as well as the logic for moving from one state to another (welcome page, play state, game over state, etc...). The last major step was allowing the user to record their highscores given that they scored well enough when playing the game.
+     - I used an object oriented approach to organize the construction of this project. Every javascript file in the JS folder besides sketch.js is a separate object prototype (ship.js, aliens.js, bomb.js, and rocket.js). In sketch.js I intantiate the objects from the prototype templates and use them with p5 library methods to display a canvas where the objects can interact. p5.js allows the user to easily display graphics and animations using the canvas as well as using the built-in setup and draw functions. After writing all the game logic to make the objects on the canvas interact, the next step was to write the code to allow for different game states as well as the logic for moving from one state to another (welcome page, play state, game over state, etc...). The last major step was allowing the user to record their highscores given that they scored well enough when playing the game.
 
  ### Future features
-     - Timer?
+     - Timer
      - Persistent Storage/Local Storage
-     - Alien Sprites
-     - Explosion animations
+     - Alien Sprite images using p5.images
+     - Explosion animations using the p5 animation library
 
  ### Any bugs
-     - I was not able to make game responsive due to the use of absolute positioning for the canvas object used with the p5.js library. 
+     - I was not able to make game responsive due to the use of absolute positioning for the canvas object used with the p5.js library.
 
  ### Your biggest wins and challenges.
 
